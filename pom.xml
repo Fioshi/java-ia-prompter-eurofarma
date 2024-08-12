@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<langchain4j.version>0.33.0</langchain4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,46 +60,50 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/dev.langchain4j/langchain4j -->
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j</artifactId>
-			<version>0.33.0</version>
-			<scope>test</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>dev.langchain4j</groupId>-->
+<!--			<artifactId>langchain4j</artifactId>-->
+<!--			<version>0.33.0</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-spring-boot-starter</artifactId>
-			<version>0.33.0</version>
+			<version>${langchain4j.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/dev.langchain4j/langchain4j-hugging-face -->
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-hugging-face</artifactId>
-			<version>0.33.0</version>
+			<version>${langchain4j.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-open-ai</artifactId>
-			<version>0.33.0</version>
-			<scope>test</scope>
+			<version>${langchain4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-embeddings-all-minilm-l6-v2-q</artifactId>
-			<version>0.33.0</version>
-			<scope>test</scope>
+			<artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
+			<version>${langchain4j.version}</version>
 		</dependency>
+
+
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
