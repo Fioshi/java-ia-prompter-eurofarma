@@ -1,6 +1,10 @@
 package br.com.datawave.ia.ai_project.controller;
 
 import br.com.datawave.ia.ai_project.factory.AiAssistentFactory;
+import br.com.datawave.ia.ai_project.factory.ContentRetrieverFactory;
+import br.com.datawave.ia.ai_project.factory.DocumentAssistantFactory;
+import br.com.datawave.ia.ai_project.factory.EmbeddingFactory;
+import br.com.datawave.ia.ai_project.service.RagService;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,11 +18,12 @@ public class AiPrompterController {
     @Value("${langchain.huggingface.accessToken}")
     private String token;
 
+    @Autowired
+    private RagService service;
+
     @PostMapping
-    public ResponseEntity<String> sendResponse(@RequestBody MessageDto dto){
-        System.out.println(token);
-        ChatLanguageModel chatLanguageModel = AiAssistentFactory.createHuggingFace(token);
-        var response = chatLanguageModel.generate(dto.message());
+    public ResponseEntity chat(@RequestBody MessageDto messageDTO){
+        var response = service.getDataContent(messageDTO);
         return ResponseEntity.ok().body(response);
-    };
+    }
 }
