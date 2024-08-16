@@ -13,6 +13,8 @@ import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -21,10 +23,11 @@ import java.util.List;
 
 public class ContentRetrieverFactory {
 
-    public static ContentRetriever createFileContentRetriever(
-            EmbeddingModel embeddingModel, EmbeddingStore<TextSegment> embeddingStore, String filename) {
-        // Transform single file content into chunks of text segments.
-        var segments = createTextSegments(filename);
+
+    public static ContentRetriever createStringContentRetriever(
+            EmbeddingModel embeddingModel, EmbeddingStore<TextSegment> embeddingStore, String content) {
+        // Transform the string content into chunks of text segments.
+        var segments = createTextSegments(content);
 
         // Transform segments into embeddings (vectors)
         var embeddings = embeddingModel.embedAll(segments).content();
@@ -40,21 +43,11 @@ public class ContentRetrieverFactory {
                 .build();
     }
 
-    private static List<TextSegment> createTextSegments(String filename) {
-        Path documentPath = toPath(filename);
+    private static List<TextSegment> createTextSegments(String content) {
         DocumentParser documentParser = new TextDocumentParser();
-        Document document = FileSystemDocumentLoader.loadDocument(documentPath, documentParser);
+        InputStream inputStream = new ByteArrayInputStream(content.getBytes());
+        Document document = documentParser.parse(inputStream);
         DocumentSplitter splitter = DocumentSplitters.recursive(300, 0);
         return splitter.split(document);
-    }
-
-    private static Path toPath(String fileName) {
-        try {
-            URL url = ContentRetrieverFactory.class.getClassLoader().getResource(fileName);
-            assert url != null;
-            return Paths.get(url.toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

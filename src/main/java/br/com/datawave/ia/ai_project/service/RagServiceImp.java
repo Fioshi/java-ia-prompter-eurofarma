@@ -9,9 +9,11 @@ import br.com.datawave.ia.ai_project.factory.EmbeddingFactory;
 import br.com.datawave.ia.ai_project.repository.DataRepository;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
+@Service
 public class RagServiceImp implements RagService{
 
     @Autowired
@@ -24,7 +26,7 @@ public class RagServiceImp implements RagService{
         var embeddingStore = EmbeddingFactory.createEmbeddingStore();
         var data = repository.findAll().stream().map
                 (DataContent::getContent).collect(Collectors.joining("\n"));
-        var fileContentRetriever = ContentRetrieverFactory.createFileContentRetriever(
+        var fileContentRetriever = ContentRetrieverFactory.createStringContentRetriever(
                 embeddingModel,
                 embeddingStore,
                 data);
