@@ -11,7 +11,8 @@ public class AiAssistentFactory {
     public static ChatLanguageModel  createHuggingFace(String token){
         return HuggingFaceChatModel.builder()
                 .accessToken(token)
-                .modelId("google/gemma-2-2b-it")
+                .modelId("QuantFactory/Meta-Llama-3-8B-Instruct-GGUF")
+                .temperature(0.2)
                 .timeout(Duration.ofSeconds(300))
                 .build();
     }
