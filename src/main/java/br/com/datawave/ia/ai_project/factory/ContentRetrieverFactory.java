@@ -47,7 +47,7 @@ public class ContentRetrieverFactory {
         DocumentParser documentParser = new TextDocumentParser();
         InputStream inputStream = new ByteArrayInputStream(content.getBytes());
         Document document = documentParser.parse(inputStream);
-        DocumentSplitter splitter = DocumentSplitters.recursive(300, 0);
+        DocumentSplitter splitter = DocumentSplitters.recursive(content.length(), 0);
         return splitter.split(document);
     }
 }
