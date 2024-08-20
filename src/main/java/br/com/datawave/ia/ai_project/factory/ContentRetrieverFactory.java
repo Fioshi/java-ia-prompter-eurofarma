@@ -23,16 +23,12 @@ import java.util.List;
 
 public class ContentRetrieverFactory {
 
-
     public static ContentRetriever createStringContentRetriever(
             EmbeddingModel embeddingModel, EmbeddingStore<TextSegment> embeddingStore, String content) {
-        // Transform the string content into chunks of text segments.
         var segments = createTextSegments(content);
 
-        // Transform segments into embeddings (vectors)
         var embeddings = embeddingModel.embedAll(segments).content();
 
-        // Store embeddings with the corresponding segments
         embeddingStore.addAll(embeddings, segments);
 
         return EmbeddingStoreContentRetriever.builder()

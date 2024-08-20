@@ -25,5 +25,4 @@ public class AiAssistentFactory {
                 .timeout(Duration.ofSeconds(300))
                 .build();
     }
-
 }
