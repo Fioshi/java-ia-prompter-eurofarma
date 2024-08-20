@@ -1,6 +1,7 @@
 package br.com.datawave.ia.ai_project.service;
 
-import br.com.datawave.ia.ai_project.controller.MessageDto;
+import br.com.datawave.ia.ai_project.domain.InputDataContent;
+import br.com.datawave.ia.ai_project.domain.MessageDto;
 import br.com.datawave.ia.ai_project.domain.DataContent;
 import br.com.datawave.ia.ai_project.factory.AiAssistentFactory;
 import br.com.datawave.ia.ai_project.factory.ContentRetrieverFactory;
@@ -34,5 +35,10 @@ public class RagServiceImp implements RagService{
         var documentAssistant = new DocumentAssistantFactory(chatModel, fileContentRetriever);
         String response = documentAssistant.chat(dto.message());
         return response;
+    }
+
+    @Override
+    public void inputDataContent(InputDataContent input) {
+        repository.save(new DataContent(input.content()));
     }
 }
