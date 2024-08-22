@@ -1,4 +1,4 @@
-package br.com.datawave.ia.ai_project.domain;
+package br.com.datawave.ia.ai_project.domain.data;
 
 import jakarta.validation.constraints.NotBlank;
 

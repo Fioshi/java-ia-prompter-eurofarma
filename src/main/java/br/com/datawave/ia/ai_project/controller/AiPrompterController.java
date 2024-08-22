@@ -1,7 +1,7 @@
 package br.com.datawave.ia.ai_project.controller;
 
-import br.com.datawave.ia.ai_project.domain.MessageDto;
-import br.com.datawave.ia.ai_project.service.RagService;
+import br.com.datawave.ia.ai_project.domain.data.MessageDto;
+import br.com.datawave.ia.ai_project.service.ragService.RagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
