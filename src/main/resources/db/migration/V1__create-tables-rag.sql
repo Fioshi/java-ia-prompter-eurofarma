@@ -1,7 +1,17 @@
 CREATE TABLE tb_data (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_data BIGINT AUTO_INCREMENT PRIMARY KEY,
     content VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE tb_user (
+    id_user BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_data BIGINT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+);
+
+ALTER TABLE tb_user ADD CONSTRAINT fk_id_data
+FOREIGN KEY(id_data) REFERENCES tb_data(id_data);
 
 
 INSERT INTO tb_data (content) VALUES
