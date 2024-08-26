@@ -2,9 +2,13 @@ package br.com.datawave.ia.ai_project.domain.data;
 
 import br.com.datawave.ia.ai_project.domain.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_data")
+@AllArgsConstructor
+@NoArgsConstructor
 public class DataContent {
 
     @Id
@@ -17,10 +21,6 @@ public class DataContent {
     private User user;
 
     private String content;
-
-    public DataContent(){
-
-    }
 
     public DataContent(String content) {
         this.content = content;

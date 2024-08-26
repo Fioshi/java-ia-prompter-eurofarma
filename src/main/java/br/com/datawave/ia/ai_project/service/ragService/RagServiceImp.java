@@ -35,7 +35,10 @@ public class RagServiceImp implements RagService{
                 data);
 
         var documentAssistant = new DocumentAssistantFactory(chatModel, fileContentRetriever);
-        return documentAssistant.chat(dto.message());
+        var response = documentAssistant.chat(dto.message());
+        repository.save(new DataContent(response));
+
+        return response;
     }
 
     @Override
