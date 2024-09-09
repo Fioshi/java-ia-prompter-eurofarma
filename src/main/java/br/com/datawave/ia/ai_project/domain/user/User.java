@@ -3,9 +3,11 @@ package br.com.datawave.ia.ai_project.domain.user;
 import br.com.datawave.ia.ai_project.domain.data.DataContent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +18,7 @@ import java.util.List;
 @Table(name = "tb_user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class User implements UserDetails {
 
     @Id
@@ -27,32 +30,12 @@ public class User implements UserDetails {
 
     private String email;
 
-    private String username;
-
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<DataContent> contents = new LinkedList<>();
-
-    public User(String nome, String email) {
+    public User(String nome, String email, String password) {
         this.nome = nome;
         this.email = email;
-    }
-
-    public List<DataContent> getContents () {
-        return Collections.unmodifiableList(this.contents);
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public String getEmail() {
-        return this.email;
+        this.password = cript(password);
     }
 
     @Override
@@ -67,14 +50,18 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
-    public void addData(DataContent dataContent){
-        this.contents.add(dataContent);
+    public Long getId() {
+        return this.id;
     }
 
-    public void removeData(DataContent dataContent){
-        this.contents.remove(dataContent);
+    public String getNome() {
+        return this.nome;
+    }
+
+    private String cript(String password){
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

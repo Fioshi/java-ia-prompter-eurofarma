@@ -2,9 +2,15 @@ package br.com.datawave.ia.ai_project.controller;
 
 import br.com.datawave.ia.ai_project.domain.user.DescribeUserDto;
 import br.com.datawave.ia.ai_project.domain.user.InsertUserDto;
-import br.com.datawave.ia.ai_project.service.userService.UserService;
+import br.com.datawave.ia.ai_project.domain.user.User;
+import br.com.datawave.ia.ai_project.domain.user.UserLoginDto;
+import br.com.datawave.ia.ai_project.service.TokenService;
+import br.com.datawave.ia.ai_project.service.userService.UserServiceImp;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -13,7 +19,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserServiceImp service;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager manager;
 
     @PostMapping
     public ResponseEntity<DescribeUserDto> insertUser (@RequestBody InsertUserDto dto, UriComponentsBuilder builder){
@@ -25,5 +37,16 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<DescribeUserDto> getUser (@PathVariable Long id){
         return ResponseEntity.ok().body(service.getUser(id));
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody @Valid UserLoginDto dto) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+        System.out.println(authenticationToken.getCredentials());
+        var authentication = manager.authenticate(authenticationToken);
+
+        var tokenJWT = tokenService.gerarToken((User) authentication.getPrincipal());
+        System.out.println(tokenJWT);
+        return ResponseEntity.ok(tokenJWT);
     }
 }

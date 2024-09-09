@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("ai/chat")
-public class AiPrompterController {
-
-    @Value("${langchain.huggingface.accessToken}")
-    private String token;
+public class DataController {
 
     @Autowired
     private RagService service;
 
     @PostMapping
     public ResponseEntity<String> chat(@Valid @RequestBody MessageDto messageDTO){
+        System.out.println(messageDTO.message());
         var response = service.getDataContent(messageDTO);
         return ResponseEntity.ok().body(response);
     }

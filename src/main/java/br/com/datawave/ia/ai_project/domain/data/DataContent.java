@@ -1,6 +1,5 @@
 package br.com.datawave.ia.ai_project.domain.data;
 
-import br.com.datawave.ia.ai_project.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,10 +14,6 @@ public class DataContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_data")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
 
     private String content;
 
