@@ -22,7 +22,7 @@ public class RagServiceImp implements RagService{
 
     @Override
     public String getDataContent(MessageDto dto) {
-        ChatLanguageModel chatModel = AiAssistentFactory.createLocalChatModel();
+        var chatModel = AiAssistentFactory.createLocalChatModel();
         var embeddingModel = EmbeddingFactory.createEmbeddingModel();
         var embeddingStore = EmbeddingFactory.createEmbeddingStore();
 
