@@ -6,12 +6,11 @@ CREATE TABLE tb_user (
 
 CREATE TABLE tb_data (
     id_data BIGINT AUTO_INCREMENT PRIMARY KEY,
-    id_user BIGINT NOT NULL ,
     content VARCHAR(255) NOT NULL
 );
 
-ALTER TABLE tb_data ADD CONSTRAINT fk_id_user
-FOREIGN KEY(id_user) REFERENCES tb_user(id_user);
+--ALTER TABLE tb_data ADD CONSTRAINT fk_id_user
+--FOREIGN KEY(id_user) REFERENCES tb_user(id_user);
 
 --INSERT INTO tb_data (content) VALUES
 --('2024-08-01: Venda de produto X - Quantidade: 50 - Valor total: R$ 5.000'),
