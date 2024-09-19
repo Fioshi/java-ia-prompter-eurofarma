@@ -44,11 +44,9 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<TokenReturn> login(@RequestBody @Valid UserLoginDto dto) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
-        System.out.println(authenticationToken.getCredentials());
         var authentication = manager.authenticate(authenticationToken);
 
         var tokenJWT = tokenService.gerarToken((User) authentication.getPrincipal());
-        System.out.println(tokenJWT);
         return ResponseEntity.ok(new TokenReturn(tokenJWT));
     }
 }

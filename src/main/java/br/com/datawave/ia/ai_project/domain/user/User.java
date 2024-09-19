@@ -1,5 +1,6 @@
 package br.com.datawave.ia.ai_project.domain.user;
 
+import br.com.datawave.ia.ai_project.domain.answer.UserAnswer;
 import br.com.datawave.ia.ai_project.domain.data.DataContent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,6 @@ import java.util.List;
 @Table(name = "tb_user")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 public class User implements UserDetails {
 
     @Id
@@ -31,6 +31,9 @@ public class User implements UserDetails {
     private String email;
 
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserAnswer> answers;
 
     public User(String nome, String email, String password) {
         this.nome = nome;
@@ -53,12 +56,20 @@ public class User implements UserDetails {
         return this.email;
     }
 
+    public List getAnswers(){
+        return Collections.unmodifiableList(this.answers);
+    }
+
     public Long getId() {
         return this.id;
     }
 
     public String getNome() {
         return this.nome;
+    }
+
+    public void addAnswer(UserAnswer answer){
+        this.answers.add(answer);
     }
 
     private String cript(String password){

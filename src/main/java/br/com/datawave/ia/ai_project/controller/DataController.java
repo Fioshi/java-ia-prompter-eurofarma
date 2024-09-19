@@ -1,5 +1,6 @@
 package br.com.datawave.ia.ai_project.controller;
 
+import br.com.datawave.ia.ai_project.domain.data.InputDataContent;
 import br.com.datawave.ia.ai_project.domain.data.MessageDto;
 import br.com.datawave.ia.ai_project.domain.data.ResponseDto;
 import br.com.datawave.ia.ai_project.service.ragService.RagService;
@@ -23,4 +24,10 @@ public class DataController {
         var response = service.getDataContent(messageDTO);
         return ResponseEntity.ok().body(new ResponseDto(response));
     }
+
+//    @PostMapping
+//    public ResponseEntity<String> feedDataBase(@RequestBody InputDataContent dataContent){
+//        service.inputDataContent(dataContent);
+//    }
+
 }

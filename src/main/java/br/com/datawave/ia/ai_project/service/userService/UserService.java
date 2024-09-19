@@ -6,6 +6,8 @@ import br.com.datawave.ia.ai_project.domain.user.User;
 
 public interface UserService {
 
+    public User loadLogedUser();
+
     public DescribeUserDto insertUser(InsertUserDto dto);
 
     public DescribeUserDto getUser (Long id);

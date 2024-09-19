@@ -29,8 +29,16 @@
 	<properties>
 		<java.version>21</java.version>
 		<langchain4j.version>0.33.0</langchain4j.version>
+		<jdbc.version>23.5.0.24.07</jdbc.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ucp</artifactId>
+			<version>${jdbc.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -131,6 +139,36 @@
 			<version>2.12.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-redis</artifactId>
+			<version>0.34.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.redis.testcontainers</groupId>
+			<artifactId>testcontainers-redis</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.19.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-oracle</artifactId>
+			<version>0.34.0</version>
+
+		</dependency>
 
 	</dependencies>
 

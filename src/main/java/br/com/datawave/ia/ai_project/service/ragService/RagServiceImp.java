@@ -1,5 +1,7 @@
 package br.com.datawave.ia.ai_project.service.ragService;
 
+import br.com.datawave.ia.ai_project.Infra.Security.AuthenticateFacade;
+import br.com.datawave.ia.ai_project.domain.answer.UserAnswer;
 import br.com.datawave.ia.ai_project.domain.data.InputDataContent;
 import br.com.datawave.ia.ai_project.domain.data.MessageDto;
 import br.com.datawave.ia.ai_project.domain.data.DataContent;
@@ -7,42 +9,54 @@ import br.com.datawave.ia.ai_project.factory.AiAssistentFactory;
 import br.com.datawave.ia.ai_project.factory.ContentRetrieverFactory;
 import br.com.datawave.ia.ai_project.factory.DocumentAssistantFactory;
 import br.com.datawave.ia.ai_project.factory.EmbeddingFactory;
+import br.com.datawave.ia.ai_project.repository.AnswerRepository;
 import br.com.datawave.ia.ai_project.repository.DataRepository;
+import br.com.datawave.ia.ai_project.service.answerService.AnswerService;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Service
 public class RagServiceImp implements RagService{
 
     @Autowired
-    private DataRepository repository;
+    private DataRepository dataRepository;
+
+    @Autowired
+    private AnswerService answerService;
 
     @Override
     public String getDataContent(MessageDto dto) {
-        var chatModel = AiAssistentFactory.createLocalChatModel();
-        var embeddingModel = EmbeddingFactory.createEmbeddingModel();
-        var embeddingStore = EmbeddingFactory.createEmbeddingStore();
-
-        var data = repository.findAll().stream().map
-                (DataContent::getContent).collect(Collectors.joining("\n"));
-
-        var fileContentRetriever = ContentRetrieverFactory.createStringContentRetriever(
-                embeddingModel,
-                embeddingStore,
-                data);
-
-        var documentAssistant = new DocumentAssistantFactory(chatModel, fileContentRetriever);
-        var response = documentAssistant.chat(dto.message());
-        repository.save(new DataContent(response));
-
+        var response = getResponse(dto);
+        answerService.postAnswers(response);
         return response;
     }
 
     @Override
     public void inputDataContent(InputDataContent input) {
-        repository.save(new DataContent(input.content()));
+        dataRepository.save(new DataContent(input.content()));
+    }
+
+    private String getResponse(MessageDto dto) {
+        var chatModel = AiAssistentFactory.createLocalChatModel();
+        var embeddingModel = EmbeddingFactory.createEmbeddingModel();
+        var embeddingStore = EmbeddingFactory.createEmbeddingStore();
+
+        var keywords = Arrays.stream(dto.message().split(" ")).toList();
+
+
+        var datas = dataRepository.findAllByKeywords(keywords).stream().
+                map(DataContent::getContent).collect(Collectors.joining("\n"));
+
+        var fileContentRetriever = ContentRetrieverFactory.createStringContentRetriever(
+                embeddingModel,
+                embeddingStore,
+                datas);
+
+        var documentAssistant = new DocumentAssistantFactory(chatModel, fileContentRetriever);
+        return documentAssistant.chat(dto.message());
     }
 }

@@ -1,6 +1,5 @@
 package br.com.datawave.ia.ai_project.factory;
 
-
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentParser;
 import dev.langchain4j.data.document.DocumentSplitter;
@@ -43,7 +42,7 @@ public class ContentRetrieverFactory {
         DocumentParser documentParser = new TextDocumentParser();
         InputStream inputStream = new ByteArrayInputStream(content.getBytes());
         Document document = documentParser.parse(inputStream);
-        DocumentSplitter splitter = DocumentSplitters.recursive(content.length(), 0);
+        DocumentSplitter splitter = DocumentSplitters.recursive(content.length(), 50);
         return splitter.split(document);
     }
 }

@@ -12,7 +12,7 @@ public class AiAssistentFactory {
         return HuggingFaceChatModel.builder()
                 .accessToken(token)
                 .modelId("QuantFactory/Meta-Llama-3-8B-Instruct-GGUF")
-                .temperature(0.2)
+                .temperature(0.3)
                 .timeout(Duration.ofSeconds(300))
                 .build();
     }
