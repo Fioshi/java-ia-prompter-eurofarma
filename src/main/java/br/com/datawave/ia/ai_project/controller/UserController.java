@@ -1,5 +1,6 @@
 package br.com.datawave.ia.ai_project.controller;
 
+import br.com.datawave.ia.ai_project.Infra.Security.TokenReturn;
 import br.com.datawave.ia.ai_project.domain.user.DescribeUserDto;
 import br.com.datawave.ia.ai_project.domain.user.InsertUserDto;
 import br.com.datawave.ia.ai_project.domain.user.User;
@@ -16,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/ai/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -40,13 +42,13 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserLoginDto dto) {
+    public ResponseEntity<TokenReturn> login(@RequestBody @Valid UserLoginDto dto) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         System.out.println(authenticationToken.getCredentials());
         var authentication = manager.authenticate(authenticationToken);
 
         var tokenJWT = tokenService.gerarToken((User) authentication.getPrincipal());
         System.out.println(tokenJWT);
-        return ResponseEntity.ok(tokenJWT);
+        return ResponseEntity.ok(new TokenReturn(tokenJWT));
     }
 }

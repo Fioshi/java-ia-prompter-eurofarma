@@ -1,6 +1,7 @@
 package br.com.datawave.ia.ai_project.controller;
 
 import br.com.datawave.ia.ai_project.domain.data.MessageDto;
+import br.com.datawave.ia.ai_project.domain.data.ResponseDto;
 import br.com.datawave.ia.ai_project.service.ragService.RagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("ai/chat")
+@CrossOrigin(origins = "*")
 public class DataController {
 
     @Autowired
     private RagService service;
 
     @PostMapping
-    public ResponseEntity<String> chat(@Valid @RequestBody MessageDto messageDTO){
+    public ResponseEntity<ResponseDto> chat(@Valid @RequestBody MessageDto messageDTO){
         System.out.println(messageDTO.message());
         var response = service.getDataContent(messageDTO);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(new ResponseDto(response));
     }
 }
