@@ -21,8 +21,11 @@ class AnswerServiceImp implements AnswerService {
 
 
     @Override
-    public void postAnswers(String data) {
-        answerRepository.save(new UserAnswer(userService.loadLogedUser(), data));
+    public void postAnswers(String dataQuestion,String dataResponse) {
+        var user = userService.loadLogedUser();
+        var answer = new UserAnswer(user, dataResponse, dataQuestion);
+        user.addAnswer(answer);
+        answerRepository.save(answer);
     }
 
     @Override

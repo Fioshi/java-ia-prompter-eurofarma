@@ -1,6 +1,7 @@
 package br.com.datawave.ia.ai_project.service.userService;
 
 import br.com.datawave.ia.ai_project.Infra.Security.AuthenticateFacade;
+import br.com.datawave.ia.ai_project.domain.answer.GetAnswersDto;
 import br.com.datawave.ia.ai_project.domain.user.DescribeUserDto;
 import br.com.datawave.ia.ai_project.domain.user.InsertUserDto;
 import br.com.datawave.ia.ai_project.domain.user.User;
@@ -26,16 +27,23 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
     public DescribeUserDto insertUser(InsertUserDto dto){
         var user = new User(dto.nome(), dto.email(), dto.password());
         repository.save(user);
-        return new DescribeUserDto(user.getId(), user.getNome(), user.getUsername());
+        var answers = user.getAnswers().stream().map(GetAnswersDto::new).toList();
+        return new DescribeUserDto(user.getId(), user.getNome(), user.getUsername(), answers);
     };
 
     @Override
     public DescribeUserDto getUser (Long id){
         var user = repository.getReferenceById(id);
-        return new DescribeUserDto(user.getId(), user.getNome(), user.getUsername());
+        var answers = user.getAnswers().stream().map(GetAnswersDto::new).toList();
+        return new DescribeUserDto(user.getId(), user.getNome(), user.getUsername(), answers);
     };
 
     @Override

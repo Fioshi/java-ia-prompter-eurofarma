@@ -12,13 +12,12 @@ CREATE TABLE tb_data (
 CREATE TABLE tb_answer(
     id_answer BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_user BIGINT NOT NULL,
+    question LONGTEXT NOT NULL,
     answer LONGTEXT NOT NULL
 );
 
 ALTER TABLE tb_answer ADD CONSTRAINT fk_id_user
 FOREIGN KEY(id_user) REFERENCES tb_user(id_user);
-
-
 
 INSERT INTO tb_data (content) VALUES
 ('John Doe é o gerente de vendas e tem 10 anos de experiência na empresa. Ele é responsável pela coordenação da equipe de vendas e pela estratégia de crescimento de mercado.'),

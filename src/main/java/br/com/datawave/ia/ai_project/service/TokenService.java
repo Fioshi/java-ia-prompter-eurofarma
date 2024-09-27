@@ -24,12 +24,13 @@ public class TokenService {
         System.out.println(usuario.getUsername());
         try {
             var algoritmo = Algorithm.HMAC256(secret);
-            return JWT.create()
+            var token = JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(usuario.getUsername())
                     .withClaim("nome", usuario.getUsername())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
+            return token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token jwt", exception);
         }

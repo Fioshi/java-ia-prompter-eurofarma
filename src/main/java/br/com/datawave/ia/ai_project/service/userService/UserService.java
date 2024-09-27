@@ -8,6 +8,8 @@ public interface UserService {
 
     public User loadLogedUser();
 
+    public User getUserByEmail(String email);
+
     public DescribeUserDto insertUser(InsertUserDto dto);
 
     public DescribeUserDto getUser (Long id);

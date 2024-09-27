@@ -45,8 +45,9 @@ public class UserController {
     public ResponseEntity<TokenReturn> login(@RequestBody @Valid UserLoginDto dto) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         var authentication = manager.authenticate(authenticationToken);
+        var user = service.getUserByEmail(dto.email());
 
         var tokenJWT = tokenService.gerarToken((User) authentication.getPrincipal());
-        return ResponseEntity.ok(new TokenReturn(tokenJWT));
+        return ResponseEntity.ok(new TokenReturn(user.getId(), user.getNome(), tokenJWT));
     }
 }

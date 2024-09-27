@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<UserAnswer> answers;
+    private List<UserAnswer> answers = new LinkedList<>();
 
     public User(String nome, String email, String password) {
         this.nome = nome;
@@ -56,7 +56,7 @@ public class User implements UserDetails {
         return this.email;
     }
 
-    public List getAnswers(){
+    public List<UserAnswer> getAnswers(){
         return Collections.unmodifiableList(this.answers);
     }
 

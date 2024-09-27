@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AnswerService {
 
-    void postAnswers(String data);
+    void postAnswers(String dataQuestion,String dataResponse);
 
     List<UserAnswer> getAnswers();
 

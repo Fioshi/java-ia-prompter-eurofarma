@@ -1,4 +1,13 @@
 package br.com.datawave.ia.ai_project.domain.answer;
 
-public record GetAnswersDto() {
+import br.com.datawave.ia.ai_project.domain.user.User;
+
+public record GetAnswersDto(
+        String question,
+        String answer
+) {
+    public GetAnswersDto(UserAnswer answer) {
+        this(answer.getQuestion(), answer.getAnswer());
+    }
+
 }

@@ -15,7 +15,10 @@ public class UserAnswer {
 
     @Id
     @Column(name = "id_answer")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String question;
 
     private String answer;
 
@@ -23,8 +26,17 @@ public class UserAnswer {
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    public UserAnswer(User user, String data) {
+    public UserAnswer(User user, String data, String question) {
         this.answer = data;
+        this.question = question;
         this.user = user;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public String getAnswer() {
+        return answer;
     }
 }

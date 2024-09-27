@@ -17,9 +17,9 @@ public class AnswerController {
     @Autowired
     private AnswerService service;
 
-    @GetMapping
-    public ResponseEntity<List<>> feedDataBase(){
-
-    }
+//    @GetMapping
+//    public ResponseEntity<List<>> feedDataBase(){
+//
+//    }
 
 }
